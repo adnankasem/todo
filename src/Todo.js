@@ -20,14 +20,34 @@ function Todo({ todo, completeTodo, deleteTodo, editTodo }) {
   return (
     <>
       <div
-        onMouseEnter={(e) =>
-          setDeleteStyle({ display: "inline", color: "red" })
+        onMouseOver={(e) =>
+          setDeleteStyle({
+            display: "inline",
+            color: "#B88686",
+            fontWeight: "500",
+          })
         }
-        onMouseLeave={(e) => setDeleteStyle({ display: "none", color: "red" })}
+        onMouseLeave={(e) => setDeleteStyle({ display: "none" })}
         className="todo"
       >
         <p onClick={() => completeTodo(todo.id)}>
-          {todo.complete ? <FaCheckCircle /> : <FaCircle />}
+          {todo.complete ? (
+            <FaCheckCircle
+              style={{
+                color: "black",
+                border: "1px solid black",
+                borderRadius: "1em",
+              }}
+            />
+          ) : (
+            <FaCircle
+              style={{
+                color: "white",
+                border: ".5px solid #AEAEAE",
+                borderRadius: "1em",
+              }}
+            />
+          )}
         </p>
         <p
           className="todo-text"
