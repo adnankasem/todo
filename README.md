@@ -1,3 +1,42 @@
+# Todo Fullstack app
+
+## General Information
+
+Users of this todo app can add todos, complete them, delete them as well as edit them. You can complete all of the todos with one simple click if you happen to have a really productive day! Everything is saved and retrieved from MongoDB. We use express, node, and mongoose to set up the backend/database and React for the frontend. 
+
+Will be posting live demon here:
+
+## Technologies Used
+
+HTML
+CSS
+Javascript
+React
+Mongoose
+Express
+Node
+MongoDB
+
+## Features
+- Users can add, edit and delete any todo
+- Responsive design that looks great on all screen sizes
+- Footer has three tabs, each of which shows differnet todos depending on if the status is complete or not
+- Footer also shows how many items we still need to complete
+- Users can clear all completed, as well as complete all todos with the click of a button
+- Text has line-through and a checkmark next to it when completed.
+
+## Project Status
+Project is: _in progress_ 
+
+
+
+
+
+----------React -----------------------------
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
