@@ -1,7 +1,6 @@
 import "./App.css";
 import Todos from "./Todos";
 import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
 import { useEffect } from "react";
 
 function App() {
@@ -10,60 +9,142 @@ function App() {
   let [filter, setFilter] = useState("ALL");
   let [itemsLeft, setItemsLeft] = useState(null);
 
-  let allAreInComplete = todos.every((todo) => !todo.complete);
-  console.log("all are incompleted: ", allAreInComplete);
+  useEffect(() => {
+    const fetchData = async () => {
+      const getAll = await fetch("http://localhost:4000/all");
+    const allTasks = await getAll.json();
+    // console.log("getall: ", getAll.json());
+    setTodos(allTasks);
+    console.log("todosFromUseEffect: ", todos);
+    }
+    fetchData()
+    
+  }, []);
 
-  const addInput = (input) => {
-    setTodos([...todos, { text: input, complete: false, id: uuidv4() }]);
-  };
+  const fetchAllTasks = async () => {
+    const getAll = await fetch("http://localhost:4000/all");
+    const allTasks = await getAll.json();
+    setTodos(allTasks);
+  }
 
-  const completeTodo = (completeId) => {
-    const todosAfterComplete = todos.map((todo) => {
-      if (todo.id === completeId) {
-        return { ...todo, complete: !todo.complete };
-      } else return todo;
+  const addInput = async (input) => {
+    const response = await fetch("http://localhost:4000/save", {
+      method: "POST",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: input, completed: false }),
     });
-    setTodos(todosAfterComplete);
+    fetchAllTasks()
+
+   
   };
 
-  const deleteTodo = (deleteId) => {
-    const todosAfterDelete = todos.filter((todo) => {
-      return todo.id !== deleteId;
+  const completeTodo = async (completeId) => {
+    const response = await fetch("http://localhost:4000/completeone", {
+      method: "PUT",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ _id: completeId }),
     });
-    setTodos(todosAfterDelete);
+
+
+
+    fetchAllTasks()
   };
-  const clearTodos = () => {
-    const todosAfterClear = todos.filter((todo) => {
-      return !todo.complete;
+
+  const deleteTodo = async (deleteId) => {
+    
+
+
+    const response = await fetch("http://localhost:4000/delete", {
+      method: "PUT",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({_id: deleteId  }),
     });
-    setTodos(todosAfterClear);
+
+    fetchAllTasks()
   };
 
-  const completeAll = () => {
-    let allAreComplete = todos.every((todo) => todo.complete);
-    console.log("All are completed: ", allAreComplete);
 
-    const todosAfterCompleteAll = todos.map((todo) => {
-      if (!allAreComplete) {
-        return { ...todo, complete: true };
-      } else {
-        return { ...todo, complete: !todo.complete };
-      }
+  const clearTodos = async () => {
+
+    const response = await fetch("http://localhost:4000/deletecompleted", {
+      method: "PUT",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      // body: JSON.stringify({_id: deleteId  }),
     });
-    setTodos(todosAfterCompleteAll);
+
+    fetchAllTasks()
+
+
+    // const todosAfterClear = todos.filter((todo) => {
+    //   return !todo.complete;
+    // });
+    // setTodos(todosAfterClear);
   };
 
-  const editTodo = (e, editedInput, editedInputId, setEditing) => {
+  const completeAll = async () => {
+
+    let allAreComplete = todos.every((todo) => todo.completed);
+    console.log('allarecomplete in frontend: ',allAreComplete)
+
+    const response = await fetch("http://localhost:4000/completeall", {
+      method: "PUT",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ allAreComplete: allAreComplete  }),
+    });
+
+
+
+    fetchAllTasks()
+
+
+
+
+    
+
+    // const todosAfterCompleteAll = todos.map((todo) => {
+    //   if (!allAreComplete) {
+    //     return { ...todo, complete: true };
+    //   } else {
+    //     return { ...todo, complete: !todo.complete };
+    //   }
+    // });
+    // setTodos(todosAfterCompleteAll);
+  };
+
+  const editTodo = async (e, editedInput, editedInputId, setEditing) => {
     if (e.key === "Enter") {
-      const todosAfterEdit = todos.map((todo) => {
-        if (editedInputId === todo.id) {
-          return { ...todo, text: editedInput, complete: false };
-        } else return todo;
-      });
-      setTodos(todosAfterEdit);
-      setEditing(false);
+      const response = await fetch("http://localhost:4000/edit", {
+      method: "PUT",
+      headers: {
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({text: editedInput, _id: editedInputId  }),
+    });
+
+
+    fetchAllTasks()
+
+    setEditing(false);      
     }
   };
+
+  
 
   useEffect(() => {
     console.log("todos: ", todos);
@@ -88,7 +169,7 @@ function App() {
         itemsLeft={itemsLeft}
         clearTodos={clearTodos}
         completeAll={completeAll}
-        allAreInComplete={allAreInComplete}
+        // allAreInComplete={allAreInComplete}
       />
       {/* <Footer setFilter={setFilter} /> */}
     </div>

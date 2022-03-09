@@ -20,9 +20,9 @@ function Todos({
   console.log("filter: ", filter);
   const filteredTodos = todos.filter((todo) => {
     if (filter === "ACTIVE") {
-      return !todo.complete;
+      return !todo.completed;
     } else if (filter === "COMPLETED") {
-      return todo.complete;
+      return todo.completed;
     } else {
       return true;
     }
@@ -40,7 +40,7 @@ function Todos({
       {filteredTodos.map((todo) => {
         return (
           <Todo
-            key={todo.id}
+            key={todo._id}
             todo={todo}
             completeTodo={completeTodo}
             deleteTodo={deleteTodo}

@@ -65,7 +65,7 @@ input::placeholder {
   justify-content: center;
   align-items: stretch;
   background-color: #fff;
-  width: 25%;
+  width: 40%;
 
   margin-top: 0.01em;
   /* border: 2px solid green; */
@@ -94,6 +94,22 @@ input::placeholder {
   font-weight: 200;
   margin-left: 1em;
   color: #4d4d4da8;
+}
+
+.edit-input {
+  width: 90%;
+  outline-width: 0;
+  padding: .5em 0;
+  padding-left: .5em;
+  margin: .5em 1em;
+  border: none;
+  background: #fff;
+  font-size: 1em;
+  font-family: "Helvetica Neue";
+
+  font-weight: 200;
+
+  box-shadow: 0px 0px 3px 2px #4d4d4d52 inset; 
 }
 
 .x-div {

@@ -10,9 +10,10 @@ function Todo({ todo, completeTodo, deleteTodo, editTodo }) {
   if (editing) {
     return (
       <input
+        className='edit-input'
         value={editedInput}
         onChange={(e) => setEditedInput(e.target.value)}
-        onKeyPress={(e) => editTodo(e, editedInput, todo.id, setEditing)}
+        onKeyPress={(e) => editTodo(e, editedInput, todo._id, setEditing)}
       />
     );
   }
@@ -30,8 +31,8 @@ function Todo({ todo, completeTodo, deleteTodo, editTodo }) {
         onMouseLeave={(e) => setDeleteStyle({ display: "none" })}
         className="todo"
       >
-        <p onClick={() => completeTodo(todo.id)}>
-          {todo.complete ? (
+        <p onClick={() => completeTodo(todo._id)}>
+          {todo.completed ? (
             <FaCheckCircle
               style={{
                 color: "black",
@@ -52,12 +53,12 @@ function Todo({ todo, completeTodo, deleteTodo, editTodo }) {
         <p
           className="todo-text"
           onClick={() => setEditing(true)}
-          style={todo.complete ? { textDecoration: "line-through" } : null}
+          style={todo.completed ? { textDecoration: "line-through" } : null}
         >
           {todo.text}
         </p>
         <div className="x-div">
-          <p onClick={() => deleteTodo(todo.id)} style={deleteStyle}>
+          <p onClick={() => deleteTodo(todo._id)} style={deleteStyle}>
             X
           </p>
         </div>
