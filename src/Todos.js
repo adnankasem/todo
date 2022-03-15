@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "./Footer";
 import Input from "./Input";
 import Todo from "./Todo";
+import {useNavigate} from 'react-router-dom'
+import { useContext } from "react";
+import {AuthContext} from './App'
 function Todos({
   todos,
   completeTodo,
@@ -16,8 +19,29 @@ function Todos({
   clearTodos,
   completeAll,
   allAreInComplete,
+  setIsSignedIn,
+  isSignedIn,
+  setToken,
+  handleSignout,
+  
 }) {
-  console.log("filter: ", filter);
+
+  
+
+  const token = useContext(AuthContext)
+
+  const navigate = useNavigate();
+  const myStorageToken = localStorage.getItem('token')
+
+  // useEffect(() => {
+  //   if(!token) {
+  //     alert('You  are not logged in!!')
+  //     navigate('/')
+  //    }
+  //   console.log('token in Todos useeffect: ', token)
+  // }, [token])
+  
+
   const filteredTodos = todos.filter((todo) => {
     if (filter === "ACTIVE") {
       return !todo.completed;
@@ -28,8 +52,21 @@ function Todos({
     }
   });
 
+
+
+
+
+
   return (
+    <>
+    {
+      token && <button type='button' onClick={handleSignout}>Signout</button>
+    }
+    
+    <h1 className="app-heading">todos</h1>
+    
     <div className="todos">
+    
       <Input
         addInput={addInput}
         input={input}
@@ -56,6 +93,7 @@ function Todos({
         allAreInComplete={allAreInComplete}
       />
     </div>
+    </>
   );
 }
 

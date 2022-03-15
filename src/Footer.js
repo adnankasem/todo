@@ -43,7 +43,7 @@ function Footer({ setFilter, todos, itemsLeft, clearTodos, allAreInComplete }) {
               setAll("clicked");
               setActive("notClicked");
               setCompleted("notClicked");
-              console.log(allRef);
+            
               // allRef.current.style.color = "#ebd8d8";
               // activeRef.current.style.color = "#686868";
               // completedRef.current.style.color = "#686868";
